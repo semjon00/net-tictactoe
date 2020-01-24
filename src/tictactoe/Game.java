@@ -1,5 +1,7 @@
 package tictactoe;
 
+import javafx.application.Platform;
+
 import static java.lang.Integer.max;
 
 class Game {
@@ -19,7 +21,7 @@ class Game {
         state = max(state, getStateUtil(0,4));
         state = max(state, getStateUtil(2,2));
 
-        if (turn == 8 && state == 0)
+        if (turn == 9 && state == 0)
             state = 3;
         return state;
     }

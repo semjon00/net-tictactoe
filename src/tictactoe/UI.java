@@ -12,6 +12,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.*;
+import java.util.Map;
 
 public class UI {
     static GridPane root;
@@ -30,42 +31,40 @@ public class UI {
 
     public static void createNotification(String str)
     {
-        Platform.runLater(new Runnable(){
-            @Override
-            public void run() {
-                Label label = new Label(str);
-                label.setPadding(new Insets(0, 0, 0, 20));
-                Scene secondScene = new Scene(label, 200, 50);
+        Platform.runLater(() -> {
+            Label label = new Label(str);
+            label.setPadding(new Insets(0, 0, 0, 20));
+            Scene secondScene = new Scene(label, 200, 50);
 
-                Stage newWindow = new Stage();
-                newWindow.setScene(secondScene);
-                newWindow.initModality(Modality.APPLICATION_MODAL);
-                newWindow.show();
-            }
+            Stage newWindow = new Stage();
+            newWindow.setScene(secondScene);
+            newWindow.initModality(Modality.APPLICATION_MODAL);
+            newWindow.show();
         });
     }
 
     static public void placeEvent(int pos, int value) {
-        Platform.runLater(new Runnable(){
-            @Override
-            public void run() {
-                // Change button state
-                Image img = new Image((value == 1 ? "file:img/cross.png" : "file:img/circle.png"),
-                        60, 60, true, true);
-                ImageView imgV = new ImageView(img);
-                UI.buttons[pos].setMouseTransparent(true);
-                UI.buttons[pos].setGraphic(imgV);
-            }
+        Platform.runLater(() -> {
+            // Change button state
+            Image img = new Image((value == 1 ? "file:img/cross.png" : "file:img/circle.png"),
+                    60, 60, true, true);
+            ImageView imgV = new ImageView(img);
+            UI.buttons[pos].setMouseTransparent(true);
+            UI.buttons[pos].setGraphic(imgV);
         });
     }
 
-    public static void gameOverNotification(int lineI) {
-        String text;
-        if (lineI == 3)
-            text = "It is a draw";
-        else
-            text = (lineI == 1 ? "Circles win!" : "Crosses win!");
-        createNotification(text);
+    public static void gameOverNotification(int msgID) {
+        Map<Integer, String> msgs = Map.of(
+                0, "Magical bug appeared!",
+                1, "Circles win!",
+                2, "Crosses win!",
+                3, "It is a draw",
+                17, "The game was interrupted"
+        );
+        if (!msgs.containsKey(msgID))
+            msgID = 0;
+        createNotification(msgs.get(msgID));
     }
 
     static void init() {
@@ -90,7 +89,7 @@ public class UI {
         Stage newWindow = new Stage();
         newWindow.setTitle("TicTacToe game");
         newWindow.setScene(secondScene);
-        //newWindow.setResizable(false);
+        newWindow.setResizable(false);
         // Breaks cross button
         //window.initModality(Modality.APPLICATION_MODAL);
         newWindow.show();
