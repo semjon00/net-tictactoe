@@ -2,12 +2,12 @@ package tictactoe;
 
 import static java.lang.Integer.max;
 
-public class Game {
-    int turn = 0;
+class Game {
+    private int turn = 0;
 
-    int[] board = new int[9];
+    private int[] board = new int[9];
 
-    int getState()
+    private int getState()
     {
         int state = 0;
 
@@ -39,7 +39,7 @@ public class Game {
         board = new int[9];
     }
 
-    int place(int pos, int who)
+    private int place(int pos, int who)
     {
         if (pos < 0 || pos > 8 || board[pos] != 0)
             return 1;
@@ -48,9 +48,8 @@ public class Game {
         return 0;
     }
 
-    public Game(Player[] players) {
+    Game(Player[] players) {
         int playersN = players.length;
-        // Make players
 
         // Play
         for (int i=0; i<playersN; i++)
@@ -67,17 +66,22 @@ public class Game {
                     turn = -1;
             }
 
-            for (int i=0; i<playersN; i++)
-                players[i].deltaUpdate(turn, currentPlayer);
+            UI.placeEvent(turn, currentPlayer);
+
+            for (Player player : players)
+                player.deltaUpdate(turn, currentPlayer);
 
             latestState = getState();
             if (latestState != 0)
             {
-                for (int i=0; i<playersN; i++)
-                    players[i].gameOver(latestState);
+                for (Player player : players)
+                    player.gameOver(latestState);
             }
 
             currentPlayer = (currentPlayer + 1) % playersN;
         }
+
+        // Really poor OOP design. I just want this thing to finally run
+        UI.gameOverNotification(latestState);
     }
 }

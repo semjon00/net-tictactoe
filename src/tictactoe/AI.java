@@ -25,7 +25,7 @@ public class AI implements Player {
         int place = new Random().nextInt(free);
         for(int i = 0; i < 9; i++)
         {
-            if(board[i] != 0)
+            if(board[i] == 0)
                 place--;
             if (place == -1)
                 return i;

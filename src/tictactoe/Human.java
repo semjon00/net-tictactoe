@@ -8,18 +8,17 @@ public class Human implements Player {
     public int getTurn()
     {
         // Read turn from interface
-        while (ClientAndUI.latestHit == -1) {Main.sleep(25);}
-        return ClientAndUI.latestHit;
+        UI.latestHit = -1;
+        while (UI.latestHit == -1) {
+            Main.sleep(25);
+        }
+        return UI.latestHit;
     }
 
     public void deltaUpdate(int pos, int value)
     {
-        ClientAndUI.placeEvent(pos, value);
+        UI.placeEvent(pos, value);
     }
 
-    public void gameOver(int reason)
-    {
-        // Game over window
-        ClientAndUI.gameOverNotification(reason);
-    }
+    public void gameOver(int reason) {}
 }

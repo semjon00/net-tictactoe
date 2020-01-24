@@ -1,16 +1,12 @@
 package tictactoe;
 
 import javafx.application.Application;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class Main extends Application {
     private static Boolean dispatcher(String str)
@@ -27,9 +23,9 @@ public class Main extends Application {
             for(int i = 0; i < 2; i++)
             {
                 if (ss[i].equals("human"))
-                    players[i] = new Human;
-                if (ss[i].equals("ai"))
-                    players[i] = new AI;
+                    players[i] = new Human();
+                else if (ss[i].equals("ai"))
+                    players[i] = new AI();
                 else
                     ok = false;
             }
@@ -39,9 +35,13 @@ public class Main extends Application {
         else
             ok = false;
 
-        new Game(players);
+        if (ok)
+        {
+            UI.init();
+            new Thread(() -> new Game(players)).start();
+        }
 
-        return !ok;
+        return ok;
     }
 
     private void mainMenu(Stage primaryStage)
@@ -60,7 +60,7 @@ public class Main extends Application {
         button.setOnAction(e -> {
             Boolean isCorrectString = dispatcher(userText.getText());
             if (!isCorrectString)
-                ClientAndUI.createNotification("Seems wrong to me...");
+                UI.createNotification("Seems wrong to me...");
         });
         root.getChildren().add(button);
 
