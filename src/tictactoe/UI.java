@@ -46,7 +46,7 @@ public class UI {
     static public void placeEvent(int pos, int value) {
         Platform.runLater(() -> {
             // Change button state
-            Image img = new Image((value == 1 ? "file:img/cross.png" : "file:img/circle.png"),
+            Image img = new Image((value == 1 ? "/img/cross.png" : "/img/circle.png"),
                     60, 60, true, true);
             ImageView imgV = new ImageView(img);
             UI.buttons[pos].setMouseTransparent(true);
