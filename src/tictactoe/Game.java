@@ -1,6 +1,6 @@
 package tictactoe;
 
-import javafx.application.Platform;
+import tictactoe.players.Player;
 
 import static java.lang.Integer.max;
 
@@ -35,12 +35,6 @@ class Game {
         return 0;
     }
 
-    void reset()
-    {
-        turn = 0;
-        board = new int[9];
-    }
-
     private int place(int pos, int who)
     {
         if (pos < 0 || pos > 8 || board[pos] != 0)
@@ -51,6 +45,9 @@ class Game {
     }
 
     Game(Player[] players) {
+        System.out.println(String.format("A new game with %s and %s is spawned",
+                players[0].getClass(), players[1].getClass()));
+
         int playersN = players.length;
 
         // Play
@@ -85,5 +82,7 @@ class Game {
 
         // Really poor OOP design. I just want this thing to finally run
         UI.gameOverNotification(latestState);
+
+        System.out.println(String.format("A game ends with state %s", latestState));
     }
 }

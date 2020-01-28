@@ -18,7 +18,7 @@ public class UI {
     static GridPane root;
     static Button[] buttons = new Button[9];
 
-    static int latestHit = -1;
+    public static int latestHit = -1;
 
     private void restart()
     {
@@ -55,16 +55,17 @@ public class UI {
     }
 
     public static void gameOverNotification(int msgID) {
-        Map<Integer, String> msgs = Map.of(
-                0, "Magical bug appeared!",
-                1, "Circles win!",
-                2, "Crosses win!",
-                3, "It is a draw",
-                17, "The game was interrupted"
-        );
-        if (!msgs.containsKey(msgID))
-            msgID = 0;
-        createNotification(msgs.get(msgID));
+        String msg = null;
+        if (msgID == 1)
+            msg = "Circles win!";
+        else if (msgID == 2)
+            msg = "Crosses win!";
+        else if (msgID == 3)
+            msg = "It is a draw";
+        else
+            msg = "Magical bug appeared!";
+
+        createNotification(msg);
     }
 
     static void init() {

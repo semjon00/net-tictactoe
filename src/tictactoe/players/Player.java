@@ -1,6 +1,6 @@
-package tictactoe;
+package tictactoe.players;
 
-interface Player {
+public interface Player {
     void init(int symbol);
     int getTurn(); // Receive player's turn
     void deltaUpdate(int pos, int value);

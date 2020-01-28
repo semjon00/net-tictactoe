@@ -1,10 +1,12 @@
-package tictactoe;
+package tictactoe.players;
+
+import tictactoe.Main;
 
 import java.util.Random;
 
 public class AI implements Player {
-    int mySymbol = -1;
-    int[] board = new int[9];
+    private int mySymbol = -1;
+    private int[] board = new int[9];
 
     public void init(int symbol)
     {
@@ -13,7 +15,7 @@ public class AI implements Player {
 
     public int getTurn()
     {
-        Main.sleep(new Random().nextInt(500) + 250);
+        Main.sleep(new Random().nextInt(300) + 300);
 
         // Very dumb AI
         int free = 9;

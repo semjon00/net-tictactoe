@@ -1,4 +1,7 @@
-package tictactoe;
+package tictactoe.players;
+
+import tictactoe.Main;
+import tictactoe.UI;
 
 public class Human implements Player {
     public int gotTurn = -1;
