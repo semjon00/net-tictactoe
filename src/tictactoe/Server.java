@@ -13,16 +13,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Server {
+    public static final int defaultPort = 61003;
+
     public Server() {
         System.out.println("The SERVER was born to serve lost souls and bring happiness!");
 
         try {
-            int port = 61003; // Net TicTacToe default port
+
             HashMap<String, Player> waiting = new HashMap<>();
 
             ServerSocket ss;
 
-            ss = new ServerSocket(port);
+            ss = new ServerSocket(defaultPort);
 
             while (true)
             {

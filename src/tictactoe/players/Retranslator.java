@@ -1,5 +1,7 @@
 package tictactoe.players;
 
+import tictactoe.Server;
+
 import java.io.*;
 import java.net.Socket;
 
@@ -13,13 +15,25 @@ public class Retranslator implements Player {
     public Retranslator(String netString) throws IOException {
         // Open connection, notify room, assign symbol
 
-        String[] netStringSplit = netString.split(":");
-        socket = new Socket(netStringSplit[0], Integer.parseInt(netStringSplit[1]));
+        String[] netStringSplit = netString.split(":", -1);
+        String address = netStringSplit[0];
+        if (address.equals(""))
+            address = "localhost";
+        int port;
+        try {
+            port = Integer.parseInt(netStringSplit[1]);
+        } catch (NumberFormatException e) {
+            port = Server.defaultPort;
+        }
+        String room = netStringSplit[2];
+        if (room.equals(""))
+            room = "default";
 
+        socket = new Socket(address, port);
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-        out.println("connect " + netStringSplit[2]);
+        out.println("connect " + room);
         mySymbol = Integer.parseInt(in.readLine());
     }
 

@@ -33,7 +33,7 @@ public class Main extends Application {
             str = "human:human";
         str = str.toLowerCase();
 
-        String[] ss = str.split(":");
+        String[] ss = str.split(":", -1);
 
         Player[] players = new Player[2];
         if (ss.length == 2) {
