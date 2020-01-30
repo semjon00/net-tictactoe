@@ -1,16 +1,12 @@
 package tictactoe;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import tictactoe.players.AI;
-import tictactoe.players.Human;
-import tictactoe.players.Player;
-import tictactoe.players.Retranslator;
+import tictactoe.players.*;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -79,16 +75,25 @@ public class Main extends Application {
     private void mainMenu()
     {
         VBox root = new VBox();
+        root.setPadding(new Insets(7, 10, 0, 10));
 
-        Label label0 = new Label("For singleplayer - player:player");
-        Label label1 = new Label("For multiplayer - IP:port:room");
+        // Text
+        Label label0 = new Label("For singleplayer - [player]:[player]");
+        Label label1 = new Label("For multiplayer - [IP]:[port]:[room]");
         root.getChildren().add(label0);
         root.getChildren().add(label1);
 
-        TextField userText = new TextField();
-        root.getChildren().add(userText);
+        // Create wrap
+        HBox wrap = new HBox(15);
+        wrap.setPadding(new Insets(10,0,0,0));
 
-        Button button = new Button("Ok");
+        // Field
+        TextField userText = new TextField();
+        userText.setMinWidth(200);
+        wrap.getChildren().add(userText);
+
+        // Button
+        Button button = new Button("Play");
         button.setOnAction(e -> {
             Integer errorCode = dispatcher(userText.getText());
             if (errorCode != 0)
@@ -96,13 +101,13 @@ public class Main extends Application {
                 System.out.println();
                 UI.createNotification("Seems wrong to me...\nError code: " + errorCode.toString());
             }
-
-
         });
-        root.getChildren().add(button);
+        wrap.getChildren().add(button);
+
+        root.getChildren().add(wrap);
 
         primaryStage.setTitle("Net TicTacToe");
-        primaryStage.setScene(new Scene(root, 300, 100));
+        primaryStage.setScene(new Scene(root, 280, 90));
         primaryStage.setResizable(false);
         primaryStage.show();
     }
