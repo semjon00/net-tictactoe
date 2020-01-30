@@ -1,14 +1,16 @@
 package tictactoe.players;
 
+import tictactoe.Server;
+
 import java.io.*;
 import java.net.*;
 
 public class Client implements Player {
-    Socket socket;
-    PrintWriter out;
-    BufferedReader in;
+    private Socket socket;
+    private PrintWriter out;
+    private BufferedReader in;
 
-    public int mySymbol = -1;
+    private int mySymbol = -1;
 
     public Client(Socket socket, PrintWriter out, BufferedReader in, int mySymbol) {
         this.socket = socket;
@@ -19,20 +21,24 @@ public class Client implements Player {
         out.println(mySymbol);
     }
 
-    public void init(int symbol) {
-
-    }
+    public void init(int symbol){ /* Does nothing */ }
 
     public int getTurn() {
-        // Waits the client to send its turn
-        return 0;
+        // Get from the client
+        String got = Server.recieve(in);
+        if (got.startsWith("turn ")) {
+            return Integer.parseInt(got.split(" ")[1]);
+        }
+        return -1;
     }
 
     public void deltaUpdate(int pos, int value) {
-        // Sends the data to the client
+        // Send to the client
+        if (value != mySymbol)
+            Server.send(out, "turned " + pos);
     }
 
     public void gameOver(int reason) {
-
+        // Close connection
     }
 }

@@ -18,10 +18,7 @@ public class Human implements Player {
         return UI.latestHit;
     }
 
-    public void deltaUpdate(int pos, int value)
-    {
-        UI.placeEvent(pos, value);
-    }
+    public void deltaUpdate(int pos, int value) {}
 
     public void gameOver(int reason) {}
 }

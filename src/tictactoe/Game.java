@@ -68,19 +68,18 @@ class Game {
             UI.placeEvent(turn, currentPlayer);
 
             for (Player player : players)
-                player.deltaUpdate(turn, currentPlayer);
+                player.deltaUpdate(turn, currentPlayer+1);
 
             latestState = getState();
             if (latestState != 0)
             {
                 for (Player player : players)
                     player.gameOver(latestState);
+            } else {
+                currentPlayer = (currentPlayer + 1) % playersN;
             }
-
-            currentPlayer = (currentPlayer + 1) % playersN;
         }
 
-        // Really poor OOP design. I just want this thing to finally run
         UI.gameOverNotification(latestState);
 
         System.out.println(String.format("A game ends with state %s", latestState));

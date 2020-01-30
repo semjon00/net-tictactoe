@@ -23,14 +23,20 @@ public class Main extends Application {
     {
        int errorCode = 0;
 
-        if (str.equals("SERVER"))
+        if (str.startsWith("SERVER"))
         {
+            String[] ss = str.split(":");
+            int port = Server.defaultPort;
+            try {
+                port = Integer.parseInt(ss[1]);
+            } catch (Exception ignored) {}
+
             primaryStage.close();
-            new Server();
+            new Server(port);
         }
 
         if (str.equals(""))
-            str = "human:human";
+            str = ":";
         str = str.toLowerCase();
 
         String[] ss = str.split(":", -1);
@@ -39,7 +45,7 @@ public class Main extends Application {
         if (ss.length == 2) {
             for(int i = 0; i < 2; i++)
             {
-                if (ss[i].equals("human"))
+                if (ss[i].equals("human") || ss[i].equals(""))
                     players[i] = new Human();
                 else if (ss[i].equals("ai"))
                     players[i] = new AI();
@@ -47,13 +53,12 @@ public class Main extends Application {
                     errorCode = 3;
             }
         } else if (ss.length == 3) {
-            players[0] = new Human();
             try {
-                Retranslator player1 = new Retranslator(str);
-                players[1] = player1;
+                players[0] = new Human();
+                players[1] = new Retranslator(str);
 
                 // Making players to be in a correct order
-                if (player1.mySymbol == 2)
+                if (((Retranslator)players[1]).mySymbol == 2)
                     Collections.swap(Arrays.asList(players), 0, 1);
             } catch (IOException e) {
                 errorCode = 2;

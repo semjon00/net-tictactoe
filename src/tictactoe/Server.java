@@ -10,12 +10,27 @@ import tictactoe.players.Player;
 import java.io.*;
 import java.net.*;
 import java.util.HashMap;
-import java.util.Map;
 
 public class Server {
     public static final int defaultPort = 61003;
 
-    public Server() {
+    public static void send(PrintWriter out, String msg)
+    {
+        System.out.println("Sent : " + msg);
+        out.println(msg);
+    }
+
+    public static String recieve(BufferedReader in)
+    {
+        try{
+            String got = in.readLine();
+            System.out.println("Recieved: " + got);
+            return got;
+        } catch (IOException ignored) {}
+        return "";
+    }
+
+    Server(int port) {
         System.out.println("The SERVER was born to serve lost souls and bring happiness!");
 
         try {
@@ -24,7 +39,7 @@ public class Server {
 
             ServerSocket ss;
 
-            ss = new ServerSocket(defaultPort);
+            ss = new ServerSocket(port);
 
             while (true)
             {
@@ -38,16 +53,17 @@ public class Server {
                     continue;
                 String room = helloLine.split(" ")[1];
 
-                System.out.println(String.format("Put client %s to room %s", socket.getInetAddress(), room));
                 if (waiting.get(room) == null)
                 {
                     waiting.put(room, new Client(socket, out, in, 1));
+                    System.out.println(String.format("Put client %s to room %s", socket.getInetAddress(), room));
                 }
                 else
                 {
-                    new Thread(() -> new Game(new Player[]
-                            {waiting.get(room), new Client(socket, out, in, 2)}
-                            ));
+                    Client our = new Client(socket, out, in, 2);
+                    Player[] players = new Player[] {waiting.get(room), our};
+                    System.out.println(String.format("Starting game with %s, from room %s", socket.getInetAddress(), room));
+                    new Thread(() -> new Game(players)).start();
                     waiting.remove(room);
                 }
             }

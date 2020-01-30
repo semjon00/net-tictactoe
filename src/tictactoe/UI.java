@@ -91,8 +91,7 @@ public class UI {
         newWindow.setTitle("TicTacToe game");
         newWindow.setScene(secondScene);
         newWindow.setResizable(false);
-        // Breaks cross button
-        //window.initModality(Modality.APPLICATION_MODAL);
+        newWindow.initModality(Modality.APPLICATION_MODAL);
         newWindow.show();
     }
 }

@@ -30,11 +30,11 @@ public class Retranslator implements Player {
             room = "default";
 
         socket = new Socket(address, port);
-        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        out = new PrintWriter(socket.getOutputStream(), true);
+        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
         out.println("connect " + room);
-        mySymbol = Integer.parseInt(in.readLine());
+        mySymbol = Integer.parseInt(Server.recieve(in));
     }
 
     public void init(int symbol){ /* Does nothing */ }
@@ -42,12 +42,9 @@ public class Retranslator implements Player {
     public int getTurn()
     {
         // Get from the server
-        try {
-            String line = in.readLine();
-            String[] splitLine = line.split("/");
-
-        } catch (IOException e) {
-            // Continue and return -1
+        String got = Server.recieve(in);
+        if (got.startsWith("turned ")) {
+            return Integer.parseInt(got.split(" ")[1]);
         }
         return -1;
     }
@@ -55,6 +52,8 @@ public class Retranslator implements Player {
     public void deltaUpdate(int pos, int value)
     {
         // Send to the server
+        if (value == mySymbol)
+            Server.send(out, "turn " + pos);
     }
 
     public void gameOver(int reason)
