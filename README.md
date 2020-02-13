@@ -1,6 +1,2 @@
 # net-tictactoe
-net-tictactoe is a personal project I do for a challenge. This is the first project where I use:
-* Java
-* Interfaces
-* A GUI library (JavaFX)
-* Sockets
+net-tictactoe is a personal project. I made it to gain experience in creating Object Oriented applications in Java, using JavaFX and implementing sockets.
